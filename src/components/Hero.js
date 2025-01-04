@@ -54,7 +54,7 @@ export default function Hero() {
         color: colors[Math.floor(Math.random() * colors.length)],
         speedX: 0,
         speedY: 0,
-        velocity: Math.random() * 1.2 + 0.8, // Daha yavaş hareket
+        velocity: Math.random() * 0.8 + 0.5, // Daha da yavaş hareket
         angle: Math.random() * Math.PI * 2,
         force: 0,
         distance: 0,
@@ -84,7 +84,7 @@ export default function Hero() {
         color: colors[Math.floor(Math.random() * colors.length)],
         speedX: 0,
         speedY: 0,
-        velocity: Math.random() * 1.2 + 0.8, // Daha yavaş hareket
+        velocity: Math.random() * 0.8 + 0.5, // Daha da yavaş hareket
         angle: Math.random() * Math.PI * 2,
         force: 0,
         distance: 0,
@@ -129,17 +129,18 @@ export default function Hero() {
         const maxDistance = 300; // Daha kısa etki mesafesi
 
         if (distance < maxDistance) {
-          const force = (1 - distance / maxDistance) * 8; // Daha yumuşak itme
+          const force = (1 - distance / maxDistance) * 5; // Daha yumuşak itme (8'den 5'e)
           particle.force = force;
           particle.distance = distance;
           
           // Parçacıkları mouse'dan uzaklaştır
           const angle = Math.atan2(dy, dx);
-          particle.speedX = -Math.cos(angle) * force * particle.velocity;
-          particle.speedY = -Math.sin(angle) * force * particle.velocity;
+          const dampening = Math.min(1, distance / 50); // Çok yakında daha kontrollü hareket
+          particle.speedX = -Math.cos(angle) * force * particle.velocity * dampening;
+          particle.speedY = -Math.sin(angle) * force * particle.velocity * dampening;
           
           // Parçacık boyutunu büyüt
-          particle.size = particle.baseSize * (1 + force * 0.3);
+          particle.size = particle.baseSize * (1 + force * 0.2); // Daha az büyüme (0.3'ten 0.2'ye)
         } else {
           particle.force = 0;
           particle.distance = 0;
