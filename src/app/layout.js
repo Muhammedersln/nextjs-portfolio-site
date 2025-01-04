@@ -1,5 +1,8 @@
 import { Poppins, Mulish } from 'next/font/google';
 import "./globals.css";
+import Navbar from '@/components/Navbar';
+import Sidebar from '@/components/Sidebar';
+import Footer from '@/components/Footer';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,7 +25,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${poppins.variable} ${mulish.variable}`}>
       <body className="font-mulish">
+        <Navbar />
+        <Sidebar />
         {children}
+        <Footer />
       </body>
     </html>
   );

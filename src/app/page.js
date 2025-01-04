@@ -19,7 +19,7 @@ export default function Home() {
       <Navbar />
       <Sidebar />
       
-      <main className="pl-24">
+      <main className="md:pl-24 pl-0">
         <Hero />
         <Services />
 
