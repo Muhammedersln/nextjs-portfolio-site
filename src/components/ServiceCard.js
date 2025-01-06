@@ -1,139 +1,234 @@
 'use client';
 
 import { motion as m } from 'framer-motion';
-import Link from 'next/link';
+import { useRef } from 'react';
+import { useScroll, useTransform } from 'framer-motion';
+import { FaWhatsapp } from 'react-icons/fa';
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 }
-  }
-};
+export const ServiceCard = ({ service, index }) => {
+  const cardRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"]
+  });
 
-export default function ServiceCard({ industry, isSelected, onSelect, onWhatsApp }) {
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+
+  const isEven = index % 2 === 0;
+
   return (
     <m.div
-      variants={itemVariants}
-      layout
-      className={`group relative ${isSelected ? 'lg:col-span-3 md:col-span-2' : ''}`}
-      onClick={() => onSelect(isSelected ? null : industry)}
+      ref={cardRef}
+      style={{
+        opacity,
+        scale,
+      }}
+      className="relative min-h-screen flex items-center py-32"
     >
-      <m.div
-        layout
-        className="h-full p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#FF3366]/20 transition-all duration-300 backdrop-blur-sm relative overflow-hidden"
-      >
-        {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        {/* Icon & Title */}
-        <div className="relative flex items-center gap-4 mb-8">
-          <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-[#FF3366]/10 backdrop-blur-sm">
-            <span className="text-3xl text-[#FF3366]">
-              {industry.icon}
-            </span>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-white group-hover:text-[#FF3366] transition-colors duration-300">
-              {industry.title}
-            </h3>
-            <p className="text-sm text-gray-400">Dijital Çözümler</p>
-          </div>
-        </div>
-
-        {/* Description */}
+      <div className="container mx-auto px-6">
         <m.div
-          layout
-          className="mb-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="relative"
         >
-          <p className={`text-gray-400 ${isSelected ? '' : 'line-clamp-3'} min-h-[4.5rem]`}>
-            {isSelected ? industry.longDescription : industry.description}
-          </p>
-        </m.div>
-
-        {/* Features Section */}
-        <m.div layout className="space-y-6">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-4 bg-[#FF3366] rounded-full" />
-              <h4 className="text-lg font-semibold text-white/90">
-                Özellikler
-              </h4>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {industry.features.slice(0, isSelected ? undefined : 4).map((feature, idx) => (
-                <m.div
-                  layout
-                  key={idx}
-                  className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 transition-colors duration-200"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF3366]" />
-                  <span className="text-sm text-gray-400 group-hover:text-white transition-colors duration-200">
-                    {feature}
-                  </span>
-                </m.div>
-              ))}
-            </div>
+          {/* Background Elements */}
+          <div className="absolute inset-0 -z-10">
+            <div 
+              className="absolute inset-0 opacity-20"
+              style={{
+                background: `radial-gradient(circle at ${isEven ? 'left' : 'right'} center, ${service.gradient.split(' ')[0].replace('from-[', '').replace(']', '')}40 0%, transparent 70%)`
+              }}
+            />
+            <div 
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'radial-gradient(circle at center, rgba(255,255,255,0.03) 1px, transparent 1px)',
+                backgroundSize: '3rem 3rem',
+              }}
+            />
           </div>
 
-          {/* Benefits Section - Only shown when selected */}
-          {isSelected && (
-            <m.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-1 h-4 bg-[#FF3366] rounded-full" />
-                <h4 className="text-lg font-semibold text-white/90">
-                  Faydalar
-                </h4>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {industry.benefits.map((benefit, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-2 p-3 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 transition-colors duration-200"
+          <div className={`flex flex-col lg:flex-row items-center gap-16 ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+            {/* Content Section */}
+            <div className="flex-1 relative">
+              <m.div
+                style={{ y }}
+                className="relative z-10"
+              >
+                <div className="inline-block">
+                  <m.div 
+                    className="text-6xl mb-8 relative"
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20,
+                      delay: 0.2
+                    }}
                   >
-                    <span className="text-[#FF3366] text-lg">✓</span>
-                    <span className="text-sm text-gray-400 group-hover:text-white transition-colors duration-200">
-                      {benefit}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </m.div>
-          )}
+                    {service.icon}
+                    <div 
+                      className="absolute -inset-4 rounded-3xl opacity-20 blur-2xl -z-10"
+                      style={{
+                        background: service.gradient
+                      }}
+                    />
+                  </m.div>
+                </div>
 
-          {/* Action Buttons */}
-          <m.div layout className="pt-6 flex gap-4">
-            <Link
-              href="/contact"
-              className="flex-1 px-6 py-3 rounded-xl bg-[#FF3366] text-white text-sm font-medium hover:bg-[#FF3366]/90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <span className="flex items-center justify-center gap-2">
-                Detaylı Bilgi
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </Link>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onWhatsApp(industry);
-              }}
-              className="px-6 py-3 rounded-xl bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-              </svg>
-              WhatsApp
-            </button>
-          </m.div>
+                <m.h2 
+                  className="text-5xl font-bold mb-6 bg-clip-text text-transparent"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, white, ${service.gradient.split(' ')[0].replace('from-[', '').replace(']', '')})`
+                  }}
+                >
+                  {service.title}
+                </m.h2>
+
+                <m.p 
+                  className="text-xl text-text-body/90 mb-8 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {service.longDescription}
+                </m.p>
+
+                {/* Features List */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                  {service.features.map((feature, idx) => (
+                    <m.div
+                      key={idx}
+                      initial={{ opacity: 0, x: isEven ? -20 : 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 * idx }}
+                      className="flex items-start gap-4"
+                    >
+                      <div 
+                        className="w-2 h-2 rounded-full mt-2.5"
+                        style={{
+                          background: service.gradient
+                        }}
+                      />
+                      <div className="flex-1">
+                        <p className="text-lg text-text-body/90">{feature}</p>
+                      </div>
+                    </m.div>
+                  ))}
+                </div>
+
+                {/* WhatsApp Button */}
+                <m.a
+                  href={`https://wa.me/905555555555?text=Merhaba, ${service.title} hizmeti hakkında bilgi almak istiyorum.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-medium transition-all duration-300"
+                  style={{
+                    background: service.gradient,
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaWhatsapp className="text-2xl" />
+                  WhatsApp
+                </m.a>
+              </m.div>
+            </div>
+
+            {/* Visual Section */}
+            <div className="flex-1">
+              <m.div
+                style={{ y: useTransform(y, value => value * -1) }}
+                className="relative aspect-square"
+              >
+                {/* Main Visual Container */}
+                <div className="absolute inset-0">
+                  <div 
+                    className="absolute inset-0 rounded-[3rem] overflow-hidden"
+                    style={{
+                      background: `linear-gradient(135deg, ${service.gradient.split(' ').map(g => g.replace('from-[', '').replace('via-[', '').replace('to-[', '').replace(']', '')).join(', ')})20`,
+                    }}
+                  >
+                    {/* Animated Elements */}
+                    {[...Array(3)].map((_, i) => (
+                      <m.div
+                        key={i}
+                        className="absolute inset-0"
+                        animate={{
+                          background: [
+                            `linear-gradient(${i * 120}deg, transparent 0%, ${service.gradient.split(' ')[0].replace('from-[', '').replace(']', '')}20 45%, transparent 100%)`,
+                            `linear-gradient(${i * 120}deg, transparent 100%, ${service.gradient.split(' ')[0].replace('from-[', '').replace(']', '')}20 145%, transparent 200%)`
+                          ]
+                        }}
+                        transition={{
+                          duration: 3,
+                          delay: i * 1,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                    ))}
+
+                    {/* Service Icon */}
+                    <m.div
+                      className="absolute inset-0 flex items-center justify-center text-[12rem] opacity-20"
+                      animate={{
+                        scale: [1, 1.1, 1],
+                        rotate: [0, 5, -5, 0]
+                      }}
+                      transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      {service.icon}
+                    </m.div>
+                  </div>
+                </div>
+
+                {/* Glow Effect */}
+                <div 
+                  className="absolute -inset-4 rounded-[4rem] opacity-30 blur-3xl -z-10"
+                  style={{
+                    background: service.gradient
+                  }}
+                />
+
+                {/* Orbital Elements */}
+                {[...Array(3)].map((_, i) => (
+                  <m.div
+                    key={i}
+                    className="absolute inset-0"
+                    animate={{
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      duration: 20 + i * 5,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  >
+                    <div 
+                      className="absolute w-4 h-4 rounded-full"
+                      style={{
+                        background: service.gradient,
+                        top: `${20 + i * 20}%`,
+                        left: `${80 - i * 20}%`,
+                        boxShadow: `0 0 20px ${service.gradient.split(' ')[0].replace('from-[', '').replace(']', '')}50`
+                      }}
+                    />
+                  </m.div>
+                ))}
+              </m.div>
+            </div>
+          </div>
         </m.div>
-      </m.div>
+      </div>
     </m.div>
   );
-} 
+}; 

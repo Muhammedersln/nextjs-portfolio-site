@@ -5,7 +5,7 @@ import { motion as m } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
+import Services from "@/components/Services/Services";
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);

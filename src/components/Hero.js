@@ -31,14 +31,14 @@ export default function Hero() {
   const time = useRef(0);
 
   const getParticleConfig = () => {
-    const isMobile = window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     return {
-      count: isMobile ? 30 : 100,
+      count: isMobile ? 15 : 100,
       radius: isMobile ? 500 : 1400,
       minDistance: isMobile ? 120 : 300,
-      baseSize: isMobile ? { min: 1, max: 2 } : { min: 3, max: 5 },
-      wobbleMagnitude: isMobile ? { min: 8, max: 15 } : { min: 20, max: 30 },
-      speed: isMobile ? 0.3 : 0.8
+      baseSize: isMobile ? { min: 1, max: 1.5 } : { min: 3, max: 5 },
+      wobbleMagnitude: isMobile ? { min: 4, max: 8 } : { min: 20, max: 30 },
+      speed: isMobile ? 0.1 : 0.8
     };
   };
 
@@ -47,7 +47,7 @@ export default function Hero() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const config = getParticleConfig();
-    const isMobile = window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     const colors = ['#fff', '#FF6B6B', '#4895EF'];
 
@@ -181,7 +181,7 @@ export default function Hero() {
         const wobbleY = Math.sin(time.current * particle.wobble.speed + particle.wobble.offset) * particle.wobble.magnitude;
         
         // Mobilde otomatik hareket
-        if (window.innerWidth < 768) {
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
           const now = Date.now();
           
           // Yön değişimi zamanı geldiyse
@@ -256,7 +256,7 @@ export default function Hero() {
         ctx.fill();
 
         // Bağlantı çizgileri - mobilde daha az bağlantı
-        const connectionDistance = window.innerWidth < 768 ? 80 : 100;
+        const connectionDistance = typeof window !== 'undefined' && window.innerWidth < 768 ? 80 : 100;
         particles.current.forEach(other => {
           const lineDx = other.x - particle.x;
           const lineDy = other.y - particle.y;
@@ -273,7 +273,7 @@ export default function Hero() {
             gradient.addColorStop(1, hexToRgba(other.color, lineOpacity));
             
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = window.innerWidth < 768 ? 0.3 : 0.5;
+            ctx.lineWidth = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.3 : 0.5;
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(other.x, other.y);
@@ -300,8 +300,11 @@ export default function Hero() {
   useEffect(() => {
     setIsClient(true);
     
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    // Sadece desktop için mouse ve touch event'lerini ekle
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
     
     initCanvas();
     
@@ -309,8 +312,10 @@ export default function Hero() {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('touchmove', handleTouchMove);
+      }
     };
   }, [initCanvas]);
 
@@ -323,7 +328,7 @@ export default function Hero() {
   }, []);
 
   const handleMouseMove = (e) => {
-    if (!canvasRef.current || window.innerWidth < 768) return; // Mobilde devre dışı
+    if (!canvasRef.current || (typeof window !== 'undefined' && window.innerWidth < 768)) return;
     
     const rect = canvasRef.current.getBoundingClientRect();
     mousePos.current = {
@@ -333,8 +338,7 @@ export default function Hero() {
   };
 
   const handleTouchMove = (e) => {
-    // Mobilde touch hareketlerini tamamen devre dışı bırak
-    if (window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
       return;
     }
     
@@ -345,7 +349,6 @@ export default function Hero() {
       x: e.touches[0].clientX - rect.left,
       y: e.touches[0].clientY - rect.top
     };
-    e.preventDefault();
   };
 
   return (
@@ -356,23 +359,23 @@ export default function Hero() {
           className="absolute inset-0 opacity-[0.015] md:opacity-[0.03]"
           style={{
             backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-            backgroundSize: '1.5rem 1.5rem',
+            backgroundSize: '1rem 1rem',
           }}
         />
         <div 
           className="absolute inset-0 opacity-[0.01] md:opacity-[0.02]"
           style={{
             backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-            backgroundSize: '8rem 8rem',
+            backgroundSize: '6rem 6rem',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/80 via-bg-primary/50 to-bg-primary/80 md:from-bg-primary/50 md:via-transparent md:to-bg-primary/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/90 via-bg-primary/70 to-bg-primary/90 md:from-bg-primary/50 md:via-transparent md:to-bg-primary/80" />
       </div>
 
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-50 md:opacity-100"
-        style={{ touchAction: 'none' }}
+        className="absolute inset-0 w-full h-full opacity-30 md:opacity-100"
+        style={{ touchAction: 'none', pointerEvents: isClient && typeof window !== 'undefined' && window.innerWidth < 768 ? 'none' : 'auto' }}
       />
 
       {/* Mobile Hero Content */}
