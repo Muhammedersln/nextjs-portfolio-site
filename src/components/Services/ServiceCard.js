@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { useScroll, useTransform } from 'framer-motion';
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
+import Link from 'next/link';
 
 export const ServiceCard = ({ service, index, id }) => {
   const cardRef = useRef(null);
@@ -143,14 +144,10 @@ export const ServiceCard = ({ service, index, id }) => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <div 
-                      className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                      style={{
-                        background: service.gradient
-                      }}
-                    />
-                    <span>Detaylı Bilgi</span>
-                    <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+                    <Link href={`/services/${service.id}`} className="flex items-center gap-2">
+                      <span>Detaylı Bilgi</span>
+                      <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </m.button>
                 </div>
               </m.div>

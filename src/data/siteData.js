@@ -1,5 +1,6 @@
 export const industriesData = [
   {
+    id: "e-commerce",
     icon: "🛍️",
     title: "E-Ticaret Çözümleri",
     description: "Modern ve kullanıcı dostu e-ticaret siteleri ile satışlarınızı artırın.",
@@ -23,6 +24,7 @@ export const industriesData = [
     gradient: "from-[#F59E0B] via-[#F97316] to-[#EA580C]"
   },
   {
+    id: "healthcare",
     icon: "👩‍⚕️",
     title: "Sağlık Sektörü Çözümleri",
     description: "Sağlık profesyonelleri için özel olarak tasarlanmış dijital çözümler.",
@@ -46,6 +48,7 @@ export const industriesData = [
     gradient: "from-[#0EA5E9] via-[#0284C7] to-[#0369A1]"
   },
   {
+    id: "beauty-spa",
     icon: "💅",
     title: "Güzellik & Spa Çözümleri",
     description: "Güzellik salonları ve spa merkezleri için profesyonel yazılımlar.",
@@ -69,6 +72,7 @@ export const industriesData = [
     gradient: "from-[#EC4899] via-[#DB2777] to-[#BE185D]"
   },
   {
+    id: "corporate",
     icon: "🏢",
     title: "Kurumsal Çözümler",
     description: "Şirketinizi dijital dünyada en iyi şekilde temsil eden kurumsal çözümler.",
@@ -92,6 +96,7 @@ export const industriesData = [
     gradient: "from-[#059669] via-[#047857] to-[#065F46]"
   },
   {
+    id: "portfolio",
     icon: "🎨",
     title: "Portfolyo & Sanat",
     description: "Sanatçılar ve kreatif profesyoneller için etkileyici portfolyo siteleri.",
@@ -115,6 +120,7 @@ export const industriesData = [
     gradient: "from-[#8B5CF6] via-[#7C3AED] to-[#6D28D9]"
   },
   {
+    id: "restaurant",
     icon: "🍽️",
     title: "Restaurant & Kafe",
     description: "Restoranlar ve kafeler için modern dijital çözümler.",

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion as m } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import Hero from "@/components/Hero";
+import Hero from "@/components/Hero/Hero";
 import Services from "@/components/Services/Services";
 
 export default function Home() {

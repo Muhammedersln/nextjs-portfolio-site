@@ -89,17 +89,7 @@ export default function Navbar() {
                   <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                 </m.a>
               </Link>
-              <Link href="/projects" passHref legacyBehavior>
-                <m.a
-                  className={`relative group text-sm font-mulish transition-colors ${
-                    scrolled ? 'text-white' : 'text-text-body'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <span className="relative z-10">Projeler</span>
-                  <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                </m.a>
-              </Link>
+
               <Link href="/contact" passHref legacyBehavior>
                 <m.a
                   className={`relative group text-sm font-mulish transition-colors ${
@@ -118,15 +108,15 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
-                className={`relative group flex items-center gap-2 overflow-hidden border border-accent/20 text-accent px-5 py-2.5 rounded-full text-sm transition-all duration-300 font-poppins ${
-                  scrolled ? 'hover:bg-accent hover:text-white hover:border-accent' : 'hover:bg-accent/10'
+                whileTap={{ scale: 0.95 }}
+                className={`relative group flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 font-poppins ${
+                  scrolled 
+                    ? 'bg-transparent hover:bg-accent border border-accent/20 text-accent hover:text-white hover:border-accent' 
+                    : 'border border-accent text-accent hover:bg-accent hover:text-white'
                 }`}
               >
-                <FaWhatsapp className={`text-lg transition-transform duration-300 ${
-                  scrolled ? 'group-hover:scale-110' : ''
-                }`} />
-                <span className="relative z-10">İletişime Geç</span>
-                <span className="absolute inset-0 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <FaWhatsapp className="text-lg" />
+                <span>İletişime Geç</span>
               </m.a>
             </div>
 
@@ -217,11 +207,14 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-3 border border-accent/20 text-accent hover:bg-accent/10 px-8 py-4 rounded-full text-lg transition-colors font-poppins"
-              onClick={() => setIsOpen(false)}
+              className={`relative group flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 font-poppins ${
+                scrolled 
+                  ? 'bg-transparent hover:bg-accent border border-accent/20 text-accent hover:text-white hover:border-accent' 
+                  : 'border border-accent text-accent hover:bg-accent hover:text-white'
+              }`}
             >
-              <FaWhatsapp className="text-xl" />
-              Teklif Al
+              <FaWhatsapp className="text-lg" />
+              <span>İletişime Geç</span>
             </m.a>
           </m.div>
         </div>

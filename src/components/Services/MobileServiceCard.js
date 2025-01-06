@@ -1,6 +1,7 @@
 import { motion as m } from 'framer-motion';
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
+import Link from 'next/link';
 
 export const MobileServiceCard = ({ service, index }) => {
   return (
@@ -105,14 +106,10 @@ export const MobileServiceCard = ({ service, index }) => {
               className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-base font-medium border border-white/10 hover:bg-white/5 transition-all relative overflow-hidden group"
               whileTap={{ scale: 0.98 }}
             >
-              <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                style={{
-                  background: service.gradient
-                }}
-              />
-              <span>Detaylı Bilgi</span>
-              <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+              <Link href={`/services/${service.id}`} className="flex items-center gap-2">
+                <span>Detaylı Bilgi</span>
+                <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+              </Link>
             </m.button>
           </div>
         </div>
