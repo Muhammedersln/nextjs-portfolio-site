@@ -234,8 +234,10 @@ export default function DesktopHero({ slides, currentSlide, setCurrentSlide }) {
         style={{ touchAction: 'none' }}
       />
       <div className="container mx-auto px-8 relative flex flex-col min-h-[600px]">
+        <div className="absolute inset-0 bg-bg-primary/30 backdrop-blur-sm rounded-3xl pointer-events-none" />
+        
         <div className="flex-1 flex items-center">
-          <div className="w-full max-w-2xl mx-auto text-center">
+          <div className="w-full max-w-2xl mx-auto text-center relative z-10">
             <AnimatePresence mode="wait" initial={false}>
               <m.div
                 key={currentSlide}
@@ -269,6 +271,7 @@ export default function DesktopHero({ slides, currentSlide, setCurrentSlide }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
+                    className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]"
                   >
                     {slides[currentSlide].subtitle}
                   </m.span>
@@ -283,7 +286,7 @@ export default function DesktopHero({ slides, currentSlide, setCurrentSlide }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
-                  className="text-7xl font-bold text-text-heading mb-6 leading-tight font-poppins"
+                  className="text-7xl font-bold text-white mb-6 leading-tight font-poppins drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
                 >
                   {slides[currentSlide].title}<span className="text-accent">.</span>
                 </m.h1>
@@ -291,7 +294,7 @@ export default function DesktopHero({ slides, currentSlide, setCurrentSlide }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
-                  className="text-lg mb-12 opacity-80 font-mulish mx-auto max-w-xl"
+                  className="text-lg mb-12 text-white/90 font-mulish mx-auto max-w-xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] font-medium"
                 >
                   {slides[currentSlide].description}
                 </m.p>

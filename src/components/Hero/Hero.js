@@ -38,20 +38,20 @@ export default function Hero() {
       {/* Background Grid - Both Mobile and Desktop */}
       <div className="absolute inset-0">
         <div 
-          className="absolute inset-0 opacity-[0.015] md:opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.02] md:opacity-[0.04]"
           style={{
             backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
             backgroundSize: '1rem 1rem',
           }}
         />
         <div 
-          className="absolute inset-0 opacity-[0.01] md:opacity-[0.02]"
+          className="absolute inset-0 opacity-[0.015] md:opacity-[0.03]"
           style={{
             backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
             backgroundSize: '6rem 6rem',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/90 via-bg-primary/70 to-bg-primary/90 md:from-bg-primary/50 md:via-transparent md:to-bg-primary/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/95 via-bg-primary/80 to-bg-primary/95 md:from-bg-primary/70 md:via-transparent md:to-bg-primary/90" />
       </div>
 
       <MobileHero 

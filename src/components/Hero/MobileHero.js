@@ -140,7 +140,7 @@ export default function MobileHero({ slides, currentSlide, setCurrentSlide }) {
     <div className="relative z-10 h-full md:hidden">
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-30"
+        className="absolute inset-0 w-full h-full opacity-20"
         style={{ touchAction: 'none', pointerEvents: 'none' }}
       />
       <div className="h-full flex flex-col">
@@ -149,6 +149,8 @@ export default function MobileHero({ slides, currentSlide, setCurrentSlide }) {
           <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-accent via-accent/50 to-transparent" />
           <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-accent/10 to-transparent" />
         </div>
+        
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-bg-primary/70 to-bg-primary/90 pointer-events-none" />
         
         <div className="flex-1 flex flex-col justify-center px-6">
           <AnimatePresence mode="wait">
@@ -165,20 +167,20 @@ export default function MobileHero({ slides, currentSlide, setCurrentSlide }) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="inline-block px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 shadow-sm"
+                  className="inline-block px-4 py-1.5 rounded-full bg-accent/15 border border-accent/30 shadow-sm"
                 >
-                  <span className="text-xs font-medium text-accent tracking-wider">
+                  <span className="text-xs font-medium text-accent tracking-wider font-poppins">
                     {slides[currentSlide].subtitle}
                   </span>
                 </m.div>
                 
-                <h1 className="text-[2.5rem] font-bold text-text-heading leading-[1.15] font-poppins drop-shadow-sm">
+                <h1 className="text-[2.5rem] font-bold text-text-heading leading-[1.15] font-poppins drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
                   {slides[currentSlide].title}
                   <span className="text-accent">.</span>
                 </h1>
               </div>
 
-              <p className="text-base text-text-body/90 font-mulish leading-relaxed drop-shadow-sm">
+              <p className="text-base text-white font-mulish leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)] font-medium">
                 {slides[currentSlide].description}
               </p>
 
@@ -189,7 +191,7 @@ export default function MobileHero({ slides, currentSlide, setCurrentSlide }) {
                   Projeye Başla
                 </button>
                 <button
-                  className="w-full py-4 bg-accent/5 backdrop-blur-sm border border-accent/20 text-accent rounded-2xl font-medium active:bg-accent/10 transition-all duration-300 shadow-sm"
+                  className="w-full py-4 bg-accent/10 backdrop-blur-sm border border-accent/30 text-accent rounded-2xl font-medium active:bg-accent/20 transition-all duration-300 shadow-sm"
                 >
                   Daha Fazla
                 </button>
